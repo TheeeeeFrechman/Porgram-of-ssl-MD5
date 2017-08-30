@@ -7,14 +7,14 @@ int pptv(char buf[],int n);
 int  main(int  argc,  char  **argv )
 {
 	MD5_CTX ctx;
-	unsigned char md5[17]={0};
+	unsigned char md5[17] = {0};
 	FILE *fp;
 	int block_size = 0;
 	char  buf[33]={ '\0' };
 	char  tmp[3]={ '\0' };
 	int block_num  = 0;
 	int Time = 0;
-	unsigned  char  *data= (unsigned char*)malloc(1024*1024*1024);
+	unsigned char *data= (unsigned char*)malloc(1024*1024*1024);
 	if(!data)
 	{
 		printf("malloc the data errer\n");
@@ -33,14 +33,14 @@ int  main(int  argc,  char  **argv )
 		printf("fopen faile\n");
 		return -1;
 	}
-	int a = fseek(fp,0,SEEK_END);
+	int a = fseek(fp, 0, SEEK_END);
 	if(a == -1)
 	{
 		printf("fseek is faile\n");
 	}
 	int len_f = ftell(fp);
 	printf("faile data len_f:%d\n",len_f);
-	fseek(fp,0,SEEK_SET);
+	fseek(fp, 0, SEEK_SET);
 	while(block_num)
 	{	
 		printf("block num:%d\n",++Time);
@@ -50,7 +50,7 @@ int  main(int  argc,  char  **argv )
 		}
 		block_num--;
 		int len = 0;
-		printf("the size is:%d\n",block_size);
+		printf("the size is:%d\n", block_size);
 		len = fread(data, 1, block_size, fp);
 		if(len != block_size)
 		{
@@ -60,20 +60,20 @@ int  main(int  argc,  char  **argv )
 		}
 		printf("the read len:%d\n",len);
 		sleep(1);
-		mlen = mlen +len;
+		mlen = mlen + len;
 		MD5_Init(&ctx);
 		printf("the data buf:%s\nthe data len is :%d\n",data,sizeof(data));
-		MD5_Update(&ctx,data,block_size);
+		MD5_Update(&ctx, data, block_size);
 		MD5_Final(md5,&ctx);
 		for ( i=0; i<16; i++ )
 		{
-			sprintf (tmp, "%02X" ,md5[i]);
-			strcat (buf,tmp);
+			sprintf (tmp, "%02X" , md5[i]);
+			strcat (buf, tmp);
 		}
 		pptv(buf,17);
 		printf ( "MD5's value to con:%s\n" ,buf);
-		memset(data,0,sizeof(data));
-		memset(buf,0,sizeof(buf));
+		memset(data, 0, sizeof(data));
+		memset(buf, 0, sizeof(buf));
 	}
 	fclose(fp);
 	free(data);
